@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="mb-3">
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">+ Create Category</a>
+        <a href="{{ route('dashboard.categories.create') }}" class="btn btn-primary">+ Create Category</a>
     </div>
     @if (session('success'))
         <div class="alert alert-success">
@@ -33,9 +33,9 @@
                     <td>{{ $category->parent_id }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category->id) }}"
+                        <a href="{{ route('dashboard.categories.edit', $category->id) }}"
                             class="btn btn-sm btn-outline-success">Edit</a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                        <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST"
                             style="display:inline;">
                             @csrf
                             @method('DELETE')
