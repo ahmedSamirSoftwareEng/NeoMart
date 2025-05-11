@@ -18,6 +18,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">Image</th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Parent</th>
@@ -28,6 +29,13 @@
         <tbody>
             @forelse ($categories as $category)
                 <tr>
+                    <td>
+                        @if ($category->image)
+                            <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" width="50">
+                        @else
+                            No Image
+                        @endif
+                    </td>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->parent_id }}</td>
