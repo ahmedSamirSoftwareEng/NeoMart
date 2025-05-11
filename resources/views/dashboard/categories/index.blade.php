@@ -33,8 +33,10 @@
                     <td>{{ $category->parent_id }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>
-                        <a href="{{ route('dashboard.categories.edit', $category->id) }}"
-                            class="btn btn-sm btn-outline-success">Edit</a>
+                        <button class="btn btn-primary"><a href="{{ route('dashboard.categories.show', $category->id) }}"
+                                class="text-white">View</a></button>
+                        <button class="btn btn-info"><a href="{{ route('dashboard.categories.edit', $category->id) }}"
+                                class="text-white">Edit</a></button>
                         <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST"
                             style="display:inline;">
                             @csrf

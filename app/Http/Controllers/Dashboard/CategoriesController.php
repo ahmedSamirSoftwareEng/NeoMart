@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Dashboard;
 use Illuminate\Support\Str;
+
 class CategoriesController extends Controller
 {
     /**
@@ -17,7 +18,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view( 'dashboard.categories.index', compact('categories') );
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +29,7 @@ class CategoriesController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view( 'dashboard.categories.create' , compact('categories') );
+        return view('dashboard.categories.create', compact('categories'));
     }
 
     /**
@@ -41,7 +42,7 @@ class CategoriesController extends Controller
     {
         $request->merge(['slug' => Str::slug($request->name)]);
         Category::create($request->all());
-        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -52,7 +53,8 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('dashboard.categories.show', compact('category'));
     }
 
     /**
@@ -63,7 +65,9 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $categories = Category::where('id', '!=', $id)->get();
+        return view('dashboard.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -75,7 +79,10 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $request->merge(['slug' => Str::slug($request->name)]);
+        $category->update($request->all());
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
