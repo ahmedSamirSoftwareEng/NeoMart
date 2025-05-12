@@ -75,7 +75,15 @@ class CategoriesController extends Controller
     }
     public function destroy($id)
     {
-        Category::destroy($id);
+        $category = Category::findOrFail($id);
+        $oldImage = $category->image;
+        $category->delete();
+        if ($oldImage) {
+            $oldImagePath = public_path('storage/' . $oldImage);
+            if (file_exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImage);
+            }
+        }
         return redirect()->route('dashboard.categories.index')->with('success', 'Category deleted successfully.');
     }
 }
