@@ -26,6 +26,7 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(Category::rules());
         $data = $request->except('image');
         $data['image'] = $this->uploadImage($request);
         $data['slug'] = Str::slug($request->name);
@@ -51,6 +52,7 @@ class CategoriesController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $request->validate(Category::rules($id));
         $category = Category::findOrFail($id);
         $oldImage = $category->image;
         $data = $request->except('image');
