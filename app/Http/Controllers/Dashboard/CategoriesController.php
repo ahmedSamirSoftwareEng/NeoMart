@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\Dashboard;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use App\Http\Requests\CategoryRequest;
 class CategoriesController extends Controller
 {
     public function index()
@@ -24,9 +24,8 @@ class CategoriesController extends Controller
         return view('dashboard.categories.create', compact('category', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate(Category::rules());
         $data = $request->except('image');
         $data['image'] = $this->uploadImage($request);
         $data['slug'] = Str::slug($request->name);
@@ -50,15 +49,17 @@ class CategoriesController extends Controller
             ->get();
         return view('dashboard.categories.edit', compact('category', 'categories'));
     }
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        $request->validate(Category::rules($id));
         $category = Category::findOrFail($id);
         $oldImage = $category->image;
         $data = $request->except('image');
-        $data['image'] = $this->uploadImage($request);
+        $newImage = $this->uploadImage($request);
+        if ($newImage) {
+            $data['image'] = $newImage;
+        }
         $data['slug'] = Str::slug($request->name);
-        if ($oldImage && $data['image']) {
+        if ($oldImage && $newImage) {
             $oldImagePath = public_path('storage/' . $oldImage);
             if (file_exists($oldImagePath)) {
                 Storage::disk('public')->delete($oldImage);

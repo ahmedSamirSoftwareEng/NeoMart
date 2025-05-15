@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use App\Rules\Filter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+        Validator::extend('filter', function ($attribute, $value, $parameters, $validator) {
+            $forbiddenWords = $parameters;
+            $rule = new Filter($forbiddenWords);
+            dd($rule);
+            return $rule->passes($attribute, $value);
+        }, 'The :attribute contains forbidden words.');
     }
 }
- 
