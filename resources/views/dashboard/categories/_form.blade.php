@@ -19,28 +19,22 @@
             @endif
 
             <div class="mb-3">
-                <label for="name" class="form-label">Category Name <span class="text-danger">*</span></label>
-                <input type="text" name="name" id="name" @class(['form-control', 'is-invalid' => $errors->has('name')]) required
-                    value="{{ old('name', $category->name) }}">
-                @error('name')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <x-form.label id="name"> Name </x-form.label>
+                <x-form.input label="Name" name="name" :value="old('name', $category->name)" />
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" rows="4">{{ old('description', $category->description) }}</textarea>
+                <x-form.textarea name="description" :value="$category->description" label="Description" rows="4" />
             </div>
 
             <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
                 @if ($category->image)
                     <div class="mb-2">
                         <img src="{{ asset('storage/' . $category->image) }}" width="150" class="border rounded"
                             alt="Current Image">
                     </div>
                 @endif
-                <input type="file" name="image" id="image" class="form-control">
+                <x-form.input type="file" name="image" id="image" label="Upload Image" />
             </div>
 
             <div class="mb-3">
@@ -57,17 +51,8 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label d-block">Status</label>
-                <div class="form-check form-check-inline">
-                    <input type="radio" name="status" id="status_active" value="active" class="form-check-input"
-                        {{ $category->status == 'active' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="status_active">Active</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="radio" name="status" id="status_archived" value="archived" class="form-check-input"
-                        {{ $category->status == 'archived' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="status_archived">Archived</label>
-                </div>
+                <x-form.label id="status"> Status </x-form.label>
+                <x-form.radio name="status" :options="['active' => 'Active', 'archived' => 'Archived']" :checked="$category->status" />
             </div>
 
             <div class="d-flex justify-content-between">

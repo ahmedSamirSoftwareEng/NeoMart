@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('filter', function ($attribute, $value, $parameters, $validator) {
             $forbiddenWords = $parameters;
             $rule = new Filter($forbiddenWords);
-            dd($rule);
             return $rule->passes($attribute, $value);
         }, 'The :attribute contains forbidden words.');
     }

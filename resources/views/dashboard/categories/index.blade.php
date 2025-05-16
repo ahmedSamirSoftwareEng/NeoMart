@@ -17,19 +17,7 @@
         </div>
 
         <div class="card-body">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center justify-content-between"
-                    role="alert">
-                    <div>
-                        <i class="fas fa-check-circle me-2"></i>
-                        {{ session('success') }}
-                    </div>
-                    <button type="button" class="btn text-white fs-5 custom-alert-close" aria-label="Close">
-                        &times;
-                    </button>
-                </div>
-            @endif
-
+            <x-alert />
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
@@ -99,7 +87,8 @@
                                     <div class="d-flex flex-column align-items-center">
                                         <i class="fas fa-folder-open fa-2x text-muted mb-2"></i>
                                         <h5 class="text-muted">No categories found</h5>
-                                        <p class="text-muted mb-0">Create your first category by clicking the button above
+                                        <p class="text-muted mb-0">Create your first category by clicking the button
+                                            above
                                         </p>
                                     </div>
                                 </td>
