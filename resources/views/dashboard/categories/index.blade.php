@@ -16,6 +16,39 @@
             </a>
         </div>
 
+        {{-- search --}}
+        <form action="{{ url()->current() }}" method="GET" class="p-3 bg-white shadow-sm rounded border mb-4">
+            <div class="row g-2 align-items-center">
+                <!-- Search Input -->
+                <div class="col-md-6">
+                    <x-form.input name="name" placeholder="Search categories..." class="form-control form-control-sm"
+                        :value="request('name')" />
+                </div>
+
+                <!-- Status Dropdown -->
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <select name="status" id="status" class="form-select form-select-sm" aria-label="Select status">
+                            <option value="">All Status</option>
+                            <option value="active" @selected(request('status') == 'active')>Active</option>
+                            <option value="archived" @selected(request('status') == 'archived')>Archived</option>
+
+                        </select>
+                        <label for="status">Filter by Status</label>
+                    </div>
+                </div>
+
+
+                <!-- Submit Button -->
+                <div class="col-md-3 text-md-start text-end">
+                    <button type="submit" class="btn btn-sm btn-primary w-50">
+                        <i class="fas fa-search me-1"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+        {{-- end search --}}
+
         <div class="card-body">
             <x-alert />
             <div class="table-responsive">
@@ -26,6 +59,7 @@
                             <th width="60px" class="text-center">ID</th>
                             <th>Name</th>
                             <th>Parent</th>
+                            <th width="180px" class="text-center">Status</th>
                             <th width="180px" class="text-center">Created At</th>
                             <th width="200px" class="text-center">Actions</th>
                         </tr>
@@ -55,6 +89,12 @@
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
+                                <td class="text-center">
+                                    @if ($category->status == 'active')
+                                        <span class="badge bg-success">Active</span>
+                                    @else
+                                        <span class="badge bg-danger">Archived</span>
+                                    @endif
                                 <td class="text-center">
                                     <small>{{ $category->created_at->format('d M Y') }}</small><br>
                                     <small class="text-muted">{{ $category->created_at->format('h:i A') }}</small>
@@ -96,6 +136,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                {{ $categories->withQueryString()->links() }}
             </div>
         </div>
     </div>
@@ -126,6 +167,10 @@
 
         .card-header {
             border-bottom: 1px solid rgba(0, 0, 0, .05);
+        }
+
+        .card-body {
+            padding: 1.5rem;
         }
     </style>
 @endpush

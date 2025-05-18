@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement("ALTER TABLE categories MODIFY status ENUM('active', 'inactive') DEFAULT 'active'");
+        DB::statement("ALTER TABLE categories MODIFY status ENUM('active', 'archived') DEFAULT 'active'");
     }
 };
