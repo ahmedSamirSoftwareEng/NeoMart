@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Dashboard;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Requests\CategoryRequest;
@@ -19,7 +18,7 @@ class CategoriesController extends Controller
             ->select([
                 'categories.*',
                 'parents.name as parent_name'
-            ])->filter($request->all())->paginate(2);
+            ])->filter($request->all())->paginate(4);
 
         return view('dashboard.categories.index', compact('categories'));
     }
