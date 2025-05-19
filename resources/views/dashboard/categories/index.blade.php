@@ -83,8 +83,8 @@
                                     <strong>{{ $category->name }}</strong>
                                 </td>
                                 <td>
-                                    @if ($category->parent)
-                                        <span class="badge bg-info">{{ $category->parent->name }}</span>
+                                    @if ($category->parent_id)
+                                        <span class="badge bg-info">{{ $category->parent_name }}</span>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif

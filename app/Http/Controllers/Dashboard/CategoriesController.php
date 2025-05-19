@@ -15,15 +15,12 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
-        $query = Category::query();
-        if ($name = $request->query('name')) {
-            $query->where('name', 'like', "%$name%");
-        }
-        if ($status = $request->query('status')) {
-            $query->where('status', $status);
-        }
+        $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])->filter($request->all())->paginate();
 
-        $categories = $query->paginate(1);
         return view('dashboard.categories.index', compact('categories'));
     }
 

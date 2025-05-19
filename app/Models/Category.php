@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use App\Rules\Filter;
+use Illuminate\Database\Eloquent\Builder;
+
 class Category extends Model
 {
     use HasFactory;
@@ -20,6 +22,15 @@ class Category extends Model
 
     ];
 
+    public function scopeFilter(Builder $query, array $filters)
+    {
+        $query->when($filters['name'] ?? false, function ($query, $value) {
+            $query->where('categories.name', 'like', '%' . $value . '%');
+        });
+        $query->when($filters['status'] ?? false, function ($query, $value) {
+            $query->where('categories.status', $value);
+        });
+    }
     public static function rules($id = null)
     {
         return [
