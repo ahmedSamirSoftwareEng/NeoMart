@@ -8,46 +8,47 @@
 
 @section('content')
     <div class="card shadow-sm">
-        <div class="card-header bg-white py-3 d-flex align-items-center">
-            <h4 class="mb-0">Categories</h4>
-            <div class="flex-grow-1"></div>
-            <a href="{{ route('dashboard.categories.create') }}" class="btn btn-success btn-sm">
-                <i class="fas fa-plus me-1"></i> Create Category
-            </a>
-        </div>
+        <div class="card-header bg-white py-3">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <h4 class="mb-3 mb-md-0">Categories</h4>
 
-        {{-- search --}}
-        <form action="{{ url()->current() }}" method="GET" class="p-3 bg-white shadow-sm rounded border mb-4">
-            <div class="row g-2 align-items-center">
-                <!-- Search Input -->
-                <div class="col-md-6">
-                    <x-form.input name="name" placeholder="Search categories..." class="form-control form-control-sm"
-                        :value="request('name')" />
-                </div>
+                <a href="{{ route('dashboard.categories.create') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i> Create Category
+                </a>
+                <a href="{{ route('dashboard.categories.trash') }}" class="btn btn-danger btn-sm mt-2 mt-md-0">
+                    <i class="fas fa-trash-alt me-1"></i> Trash
+                </a>
+            </div>
 
-                <!-- Status Dropdown -->
-                <div class="col-md-3">
-                    <div class="form-floating">
-                        <select name="status" id="status" class="form-select form-select-sm" aria-label="Select status">
+            {{-- Search Form --}}
+            <form action="{{ url()->current() }}" method="GET" class="mt-3"> {{-- Added mt-3 for space --}}
+                {{-- Use flexbox for horizontal alignment --}}
+                <div class="d-flex align-items-center gap-2 flex-wrap"> {{-- Added flex-wrap for responsiveness --}}
+                    <!-- Search Input -->
+                    <div class="flex-grow-1" style="min-width: 200px;"> {{-- Allows input to grow, sets minimum width --}}
+                        <x-form.input name="name" placeholder="Search categories..." class="form-control form-control-sm"
+                            :value="request('name')" />
+                    </div>
+
+                    <!-- Status Dropdown and Label -->
+                    <div class="d-flex align-items-center gap-2"> {{-- Group label and select --}}
+                        <span class="text-muted text-sm">Filter by Status:</span> {{-- Added text label --}}
+                        <select name="status" id="status" class="form-select form-select-sm">
                             <option value="">All Status</option>
                             <option value="active" @selected(request('status') == 'active')>Active</option>
                             <option value="archived" @selected(request('status') == 'archived')>Archived</option>
-
                         </select>
-                        <label for="status">Filter by Status</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div> {{-- Button container --}}
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-search me-1"></i> Search
+                        </button>
                     </div>
                 </div>
-
-
-                <!-- Submit Button -->
-                <div class="col-md-3 text-md-start text-end">
-                    <button type="submit" class="btn btn-sm btn-primary w-50">
-                        <i class="fas fa-search me-1"></i> Search
-                    </button>
-                </div>
-            </div>
-        </form>
-        {{-- end search --}}
+            </form>
+        </div>
 
         <div class="card-body">
             <x-alert />
@@ -95,19 +96,20 @@
                                     @else
                                         <span class="badge bg-danger">Archived</span>
                                     @endif
+                                </td> {{-- Closing the td tag --}}
                                 <td class="text-center">
                                     <small>{{ $category->created_at->format('d M Y') }}</small><br>
                                     <small class="text-muted">{{ $category->created_at->format('h:i A') }}</small>
                                 </td>
                                 <td class="text-center">
-                                    <div class="d-flex gap-3 justify-content-center">
+                                    <div class="d-flex gap-2 justify-content-center"> {{-- Used gap-2 for spacing --}}
                                         <a href="{{ route('dashboard.categories.show', $category->id) }}"
                                             class="btn btn-sm btn-primary px-3 py-1">
-                                            <i class="fas fa-eye me-1"></i> View
+                                            <i class="fas fa-eye"></i> {{-- Removed me-1 to save space in buttons --}}
                                         </a>
                                         <a href="{{ route('dashboard.categories.edit', $category->id) }}"
                                             class="btn btn-sm btn-info text-white px-3 py-1">
-                                            <i class="fas fa-edit me-1"></i> Edit
+                                            <i class="fas fa-edit"></i> {{-- Removed me-1 --}}
                                         </a>
                                         <form action="{{ route('dashboard.categories.destroy', $category->id) }}"
                                             method="POST" class="d-inline"
@@ -115,7 +117,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger px-3 py-1">
-                                                <i class="fas fa-trash-alt me-1"></i> Delete
+                                                <i class="fas fa-trash-alt"></i> {{-- Removed me-1 --}}
                                             </button>
                                         </form>
                                     </div>
@@ -123,7 +125,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4"> {{-- Corrected colspan to 7 --}}
                                     <div class="d-flex flex-column align-items-center">
                                         <i class="fas fa-folder-open fa-2x text-muted mb-2"></i>
                                         <h5 class="text-muted">No categories found</h5>
@@ -172,21 +174,65 @@
         .card-body {
             padding: 1.5rem;
         }
+
+        /* Added styles for text label next to select */
+        .text-sm {
+            font-size: 0.875em;
+            /* Bootstrap's small font size */
+        }
+
+        .gap-2 {
+            gap: 0.5rem !important;
+            /* Ensures consistent gap */
+        }
+
+        .gap-3 {
+            gap: 1rem !important;
+            /* Ensures consistent gap for actions */
+        }
+
+        /* Adjusted padding for small buttons with icons only */
+        .btn-sm i {
+            margin-right: 0 !important;
+            /* Remove right margin on icon */
+        }
+
+        .btn-sm.px-3.py-1 {
+            padding: 0.25rem 0.75rem !important;
+            /* Keep original padding if needed */
+        }
+
+        .btn-sm:not(.px-3) i,
+        .btn-sm:not(.py-1) i {
+            margin-right: 0.25rem !important;
+            /* Add margin if button has text */
+        }
     </style>
 @endpush
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const closeButtons = document.querySelectorAll('.custom-alert-close');
+            // Existing alert closing script
+            const closeButtons = document.querySelectorAll('.custom-alert-close'); // Assuming custom alert class
             closeButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const alert = btn.closest('.alert');
                     if (alert) {
-                        alert.classList.remove('show');
-                        setTimeout(() => alert.remove(), 150);
+                        // Use Bootstrap's built-in close behavior if available
+                        const bsAlert = bootstrap.Alert.getInstance(alert);
+                        if (bsAlert) {
+                            bsAlert.hide(); // Or dispose() depending on desired effect
+                        } else {
+                            // Fallback for custom alerts without BS JS
+                            alert.classList.remove('show');
+                            setTimeout(() => alert.remove(), 150);
+                        }
                     }
                 });
             });
+
+            // Example: Adding Bootstrap JS for Alerts if not already included
+            // Ensure Bootstrap's JS file is loaded before this script
         });
     </script>
 @endpush

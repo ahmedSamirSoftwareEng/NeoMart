@@ -19,7 +19,7 @@ class CategoriesController extends Controller
             ->select([
                 'categories.*',
                 'parents.name as parent_name'
-            ])->filter($request->all())->paginate();
+            ])->filter($request->all())->paginate(2);
 
         return view('dashboard.categories.index', compact('categories'));
     }
@@ -97,5 +97,25 @@ class CategoriesController extends Controller
         $file = $request->file('image');
         $path = $file->store('uploads', ['disk' => 'public']);
         return $path;
+    }
+
+    public function trash()
+    {
+        $categories = Category::onlyTrashed()->paginate();
+        return view('dashboard.categories.trash', compact('categories'));
+    }
+
+    public function restore($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('dashboard.categories.trash')->with('success', 'Category restored successfully.');
+    }
+
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        return redirect()->route('dashboard.categories.trash')->with('success', 'Category deleted permanently.');
     }
 }
