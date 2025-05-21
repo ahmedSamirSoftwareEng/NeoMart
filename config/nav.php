@@ -11,9 +11,15 @@ return [
         'icon' => 'far fa-circle nav-icon',
         'title' => 'Categories',
         'route' => 'dashboard.categories.index',
-        'badge' => 'new',
         'active' => 'dashboard.categories.*',
     ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'title' => 'Products',
+        'route' => 'dashboard.products.index',
+        'active' => 'dashboard.products.*',
+        'badge' => 'new',
+    ]
    
 
 ];

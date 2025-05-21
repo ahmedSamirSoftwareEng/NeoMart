@@ -18,7 +18,7 @@ class StoreFactory extends Factory
      */
     public function definition()
     {
-        $name=$this->faker->word(2, true);
+        $name=$this->faker->unique()->word(2, true);
         return [
             'name'=>$name,
             'slug'=>Str::slug($name),

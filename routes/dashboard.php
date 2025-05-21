@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dashboard\ProductsController;
 
 Route::group(['middleware' => 'auth' , 'prefix' => 'dashboard' ,'as' => 'dashboard.'] , function () {
     // Dashboard
@@ -13,4 +14,6 @@ Route::group(['middleware' => 'auth' , 'prefix' => 'dashboard' ,'as' => 'dashboa
     Route::delete('/categories/{category}/force-delete', [CategoriesController::class, 'forceDelete'])->name('categories.force-delete');
     // Categories
     Route::resource('categories', CategoriesController::class)->names('categories');
+    //products
+    Route::resource('products', ProductsController::class)->names('products');
 });

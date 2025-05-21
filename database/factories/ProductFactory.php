@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -19,7 +20,7 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->unique()->words(3, true);
+        $name = $this->faker->ProductName;
         return [
             'name' => $name,
             'slug' => Str::slug($name),
