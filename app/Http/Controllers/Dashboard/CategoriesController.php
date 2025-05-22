@@ -15,12 +15,19 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
-        $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
-            ->select([
-                'categories.*',
-                'parents.name as parent_name'
-            ])->filter($request->all())->paginate(4);
-
+        // $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
+        //     ->select([
+        //         'categories.*',
+        //         'parents.name as parent_name'
+        //     ])->filter($request->all())->paginate(4);
+        $categories =  Category::with('parent')
+            ->withCount([
+                'products as product_number' => function ($query) {
+                    $query->where('status', 'active');
+                }
+            ])
+            ->filter($request->all())
+            ->paginate(4);
         return view('dashboard.categories.index', compact('categories'));
     }
 
@@ -42,7 +49,7 @@ class CategoriesController extends Controller
 
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::with('products')->findOrFail($id);
         return view('dashboard.categories.show', compact('category'));
     }
     public function edit($id)

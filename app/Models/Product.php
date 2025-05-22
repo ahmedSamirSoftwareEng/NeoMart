@@ -12,9 +12,17 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function Category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function Store()
+    {
+        return $this->belongsTo(Store::class);
+    }
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('store',new StoreScope());
+        static::addGlobalScope('store', new StoreScope());
     }
-} 
+}

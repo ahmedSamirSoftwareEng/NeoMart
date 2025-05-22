@@ -86,14 +86,14 @@
                                 </td>
                                 <td>
                                     @if ($product->category_id)
-                                        <span class="badge bg-info">{{ $product->category_id }}</span>
+                                        <span class="badge bg-info">{{ $product->category->name }}</span>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if ($product->store_id)
-                                        <span class="badge bg-info">{{ $product->store_id }}</span>
+                                        <span class="badge bg-info">{{ $product->store->name }}</span>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif

@@ -59,6 +59,7 @@
                             <th width="80px" class="text-center">Image</th>
                             <th width="60px" class="text-center">ID</th>
                             <th>Name</th>
+                            <th>Product #</th>
                             <th>Parent</th>
                             <th width="180px" class="text-center">Status</th>
                             <th width="180px" class="text-center">Created At</th>
@@ -84,10 +85,13 @@
                                     <strong>{{ $category->name }}</strong>
                                 </td>
                                 <td>
+                                    {{ $category->product_number }}
+                                </td>
+                                <td>
                                     @if ($category->parent_id)
-                                        <span class="badge bg-info">{{ $category->parent_name }}</span>
+                                        <span class="badge bg-info">{{ $category->parent->name }}</span>
                                     @else
-                                        <span class="text-muted">—</span>
+                                        <span class="text-muted">Main Category</span>
                                     @endif
                                 </td>
                                 <td class="text-center">

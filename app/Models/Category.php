@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory ,SoftDeletes;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
         'parent_id',
         'name',
@@ -23,6 +23,16 @@ class Category extends Model
 
     ];
 
+    public function parent () {
+        return $this->belongsTo(Category::class ,'parent_id' , 'id');
+    }
+    public function childeren()  {
+        return $this->hasMany(Category::class ,'parent_id' ,'id');
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['name'] ?? false, function ($query, $value) {
