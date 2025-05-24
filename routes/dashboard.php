@@ -4,8 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\ProductsController;
+use App\Http\Controllers\Dashboard\ProfileController;
 
 Route::group(['middleware' => 'auth' , 'prefix' => 'dashboard' ,'as' => 'dashboard.'] , function () {
+    // profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     // trash
