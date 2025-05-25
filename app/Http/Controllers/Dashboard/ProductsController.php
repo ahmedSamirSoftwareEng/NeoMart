@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
+use App\Models\Tag;
 
 class ProductsController extends Controller
 {
@@ -61,6 +64,8 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $tags = $product->tags->pluck('name')->implode(',');
+        return view('dashboard.products.edit', compact('product' , 'tags'));
     }
 
     /**
@@ -70,9 +75,21 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->except('tags'));
+        $tags= json_decode($request->tags);
+        $tag_ids = [];
+        foreach ($tags as $item) {
+            $sulg = Str::slug($item->value);
+            $tag = Tag::where('slug', $sulg)->first();
+            if (!$tag) {
+                $tag = Tag::create(['name' => $item->value, 'slug' => $sulg]);
+            }
+            $tag_ids[] = $tag->id;
+        }
+        $product->tags()->sync($tag_ids);
+        return redirect()->route('dashboard.products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
