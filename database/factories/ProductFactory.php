@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -20,16 +21,30 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->ProductName;
+        static $images = [];
+        static $index = 0;
+
+        // Fetch only once
+        if (empty($images)) {
+            for ($i = 1; $i <= 20; $i++) {
+                $response = Http::withoutVerifying()->get("https://fakestoreapi.com/products/{$i}");
+                if ($response->ok()) {
+                    $images[] = $response['image'];
+                }
+            }
+        }
+
+        $name = $this->faker->words(3, true);
+
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'description' => $this->faker->sentences(15, true),
-            'image' => $this->faker->imageUrl(600, 600),
-            'price' => $this->faker->randomFloat(1, 1, 999),
-            'compare_price' => $this->faker->randomFloat(1, 500, 999),
-            'category_id' => Category::inRandomOrder()->first()->id,
-            'store_id' => Store::inRandomOrder()->first()->id,
+            'description' => $this->faker->paragraph(3),
+            'image' => $images[$index++ % count($images)],
+            'price' => $this->faker->randomFloat(2, 5, 200),
+            'compare_price' => $this->faker->randomFloat(2, 100, 250),
+            'category_id' => Category::inRandomOrder()->first()->id ?? 1,
+            'store_id' => Store::inRandomOrder()->first()->id ?? 1,
             'featured' => rand(0, 1),
         ];
     }

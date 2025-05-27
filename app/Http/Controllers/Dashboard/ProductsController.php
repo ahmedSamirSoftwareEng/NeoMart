@@ -78,7 +78,7 @@ class ProductsController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->update($request->except('tags'));
-        $tags= json_decode($request->tags);
+        $tags= json_decode($request->tags??'[]');
         $tag_ids = [];
         foreach ($tags as $item) {
             $sulg = Str::slug($item->value);
