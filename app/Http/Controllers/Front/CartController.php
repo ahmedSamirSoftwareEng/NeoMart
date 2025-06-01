@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Cart\CartModelRepository;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Repositories\Cart\CartRepository;
 
 class CartController extends Controller
 {
+    protected $cart;
+
+    public function __construct(CartRepository $cart)
+    {
+        $this->cart = $cart;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,21 +22,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        $repository = new CartModelRepository();
-        $items = $repository->get();
-        return view('front.cart.index', compact('repository'));
+        return view('front.cart', [
+            'cart' => $this->cart,
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -38,29 +34,13 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'nullable|numeric|min:1',
+        ]);
+        $product = Product::find($request->product_id);
+        $this->cart->add($product, $request->quantity);
+        return redirect()->route('cart.index')->with('success', 'Product added to cart successfully.');
     }
 
     /**
@@ -70,9 +50,13 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'quantity' => 'required|numeric|min:1',
+        ]);
+        $this->cart->update($request->product_id, $request->quantity);
+        return redirect()->route('front.cart');
     }
 
     /**
@@ -83,6 +67,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->cart->delete($id);
+        return redirect()->route('front.cart');
     }
 }

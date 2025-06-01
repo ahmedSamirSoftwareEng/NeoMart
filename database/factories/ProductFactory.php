@@ -34,7 +34,7 @@ class ProductFactory extends Factory
             }
         }
 
-        $name = $this->faker->words(3, true);
+        $name = $this->faker->productName;
 
         return [
             'name' => $name,
