@@ -26,11 +26,9 @@ class CartModelRepository implements CartRepository
     }
     public function add(Product $product, $quantity = 1)
     {
-        $item = Cart::where('product_id', $product->id)
-
-            ->first();
+        $item = Cart::where('product_id', $product->id)->first();
         if (!$item) {
-            Cart::create([
+            return Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
                 'quantity' => $quantity
