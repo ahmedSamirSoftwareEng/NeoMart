@@ -3,6 +3,7 @@
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -12,6 +13,9 @@ Route::get('/products',  [ProductsController::class, 'index'])->name('products.i
 Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->name('products.show');
 // cart
 Route::resource('cart', CartController::class);
+// checkout
+Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'store']);
 
 require __DIR__ . '/dashboard.php';
 require __DIR__ . '/auth.php';
