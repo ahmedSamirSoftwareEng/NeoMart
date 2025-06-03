@@ -8,14 +8,16 @@ use App\Models\OrderItem;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Intl\Countries;
 
 class CheckoutController extends Controller
 {
     public function create(CartRepository $cart)
     {
-        if($cart->get()->count() == 0) return redirect()->route('home');
+        if ($cart->get()->count() == 0) return redirect()->route('home');
         return view('front.checkout', [
             'cart' => $cart,
+            'countries' => Countries::getNames(),
         ]);
     }
     public function store(Request $request, CartRepository $cart)
