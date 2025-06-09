@@ -29,12 +29,12 @@ class CheckoutController extends Controller
             foreach ($items as $store_id => $cart_items) {
                 $order = Order::create([
                     'store_id' => $store_id,
-                    'user_id' => auth()->user()->id,
+                    'user_id' => auth()->check() ? auth()->user()->id : null,
                     'payment_method' => 'cod',
                 ]);
             }
             // create order items
-            foreach ($items as $item) {
+            foreach ($cart_items as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
@@ -45,8 +45,8 @@ class CheckoutController extends Controller
             }
             // create order addresses
             foreach ($request->post('addr') as $type => $value) {
-                $address['type'] = $type;
-                $order->addresses()->create($address);
+                $value['type'] = $type;
+                $order->addresses()->create($value);
             }
             $cart->empty();
             DB::commit();
@@ -54,5 +54,6 @@ class CheckoutController extends Controller
             DB::rollBack();
             throw $e;
         }
+        return redirect()->route('home')->with('success', 'Order created successfully.');
     }
 }

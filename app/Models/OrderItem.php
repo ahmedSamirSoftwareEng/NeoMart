@@ -12,6 +12,9 @@ class OrderItem extends Pivot
 
     protected $table = 'order_items';
 
+    protected $fillable = ['order_id', 'product_id', 'product_name', 'price', 'quantity', 'options'];
+    public $timestamps = false;
+
     public $incrementing = true;
 
     public function product()
