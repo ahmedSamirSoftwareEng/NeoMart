@@ -25,13 +25,17 @@ class DeductProductQuantity
      */
     public function handle(OrderCreated $event)
     {
-        $order = $event->order;
-        foreach ($order->products as $product) {
-            $product->decrement('quantity', $product->pivot->quantity);
-            // Product::where('id', $item->product_id)
-            //     ->update([
-            //         'quantity' => DB::raw('quantity - ' . $item->quantity)
-            //     ]);
+        try {
+            $order = $event->order;
+            foreach ($order->products as $product) {
+                $product->decrement('quantity', $product->pivot->quantity);
+                // Product::where('id', $item->product_id)
+                //     ->update([
+                //         'quantity' => DB::raw('quantity - ' . $item->quantity)
+                //     ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

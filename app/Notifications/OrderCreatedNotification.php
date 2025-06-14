@@ -62,16 +62,15 @@ class OrderCreatedNotification extends Notification
             ->line('Thank you for using our application!');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+
+    public function toDatabase($notifiable)
     {
+        $addr = $this->order->billingAddress;
         return [
-            //
+            'body' => "A new order (# .{$this->order->number} ) created by {$addr->name} form {$addr->countryName}.",
+            "icon" => "fa fa-file",
+            "url" => url('/dashboard'),
+            "order_id" => $this->order->id
         ];
     }
 }
