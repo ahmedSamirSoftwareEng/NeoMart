@@ -8,6 +8,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Listeners\EmptyCart;
 use App\Listeners\DeductProductQuantity;
+use App\Listeners\SendOrderCreatedNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,8 @@ class EventServiceProvider extends ServiceProvider
         // ],
         OrderCreated::class => [
             DeductProductQuantity::class,
-            EmptyCart::class
+            EmptyCart::class,
+            SendOrderCreatedNotification::class
         ]
     ];
 

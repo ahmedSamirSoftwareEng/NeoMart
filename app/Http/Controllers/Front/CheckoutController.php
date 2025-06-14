@@ -24,6 +24,10 @@ class CheckoutController extends Controller
     }
     public function store(Request $request, CartRepository $cart)
     {
+        $request->validate([
+            'addr.*.first_name' => 'required|string',
+            'addr.*.last_name' => 'required|string',
+        ]);
         $items = $cart->get()->groupBy('product.store_id')->all();
         DB::beginTransaction();
         try {

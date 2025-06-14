@@ -223,7 +223,7 @@
                                                             <input type="radio" name="shipping" checked
                                                                 id="shipping-1">
                                                             <label for="shipping-1">
-                                                                <img src="https://via.placeholder.com/60x32"
+                                                                <img src="https://placehold.co/60x32"
                                                                     alt="Sipping">
                                                                 <p>Standerd Shipping</p>
                                                                 <span class="price">$10.50</span>
@@ -232,7 +232,7 @@
                                                         <div class="single-payment-option">
                                                             <input type="radio" name="shipping" id="shipping-2">
                                                             <label for="shipping-2">
-                                                                <img src="https://via.placeholder.com/60x32"
+                                                                <img src="https://placehold.co/60x32"
                                                                     alt="Sipping">
                                                                 <p>Standerd Shipping</p>
                                                                 <span class="price">$10.50</span>
@@ -241,7 +241,7 @@
                                                         <div class="single-payment-option">
                                                             <input type="radio" name="shipping" id="shipping-3">
                                                             <label for="shipping-3">
-                                                                <img src="https://via.placeholder.com/60x32"
+                                                                <img src="https://placehold.co/60x32"
                                                                     alt="Sipping">
                                                                 <p>Standerd Shipping</p>
                                                                 <span class="price">$10.50</span>
@@ -250,7 +250,7 @@
                                                         <div class="single-payment-option">
                                                             <input type="radio" name="shipping" id="shipping-4">
                                                             <label for="shipping-4">
-                                                                <img src="https://via.placeholder.com/60x32"
+                                                                <img src="https://placehold.co/60x32"
                                                                     alt="Sipping">
                                                                 <p>Standerd Shipping</p>
                                                                 <span class="price">$10.50</span>
