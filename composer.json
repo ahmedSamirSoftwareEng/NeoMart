@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "mbezhanov/laravel-faker-provider-collection": "*",
+        "pusher/pusher-php-server": "^7.2",
         "symfony/intl": "^7.2"
     },
     "require-dev": {

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Order;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class OrderCreatedNotification extends Notification
 {
@@ -31,7 +32,7 @@ class OrderCreatedNotification extends Notification
      */
     public function via($notifiable)
     {
-        $channels = ['database'];
+        return ['broadcast'];
         if ($notifiable->notification_preferences['orderCreated']['mail'] ?? false) {
             $channels[] = 'mail';
         }
@@ -72,5 +73,16 @@ class OrderCreatedNotification extends Notification
             "url" => url('/dashboard'),
             "order_id" => $this->order->id
         ];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        $addr = $this->order->billingAddress;
+        return new BroadcastMessage([
+            'body' => "A new order (# .{$this->order->number} ) created by {$addr->name} form {$addr->countryName}.",
+            "icon" => "fa fa-file",
+            "url" => url('/dashboard'),
+            "order_id" => $this->order->id
+        ]);
     }
 }
