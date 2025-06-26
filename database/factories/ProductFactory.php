@@ -8,6 +8,8 @@ use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\ConnectionException;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -27,9 +29,15 @@ class ProductFactory extends Factory
         // Fetch only once
         if (empty($images)) {
             for ($i = 1; $i <= 20; $i++) {
-                $response = Http::withoutVerifying()->get("https://fakestoreapi.com/products/{$i}");
-                if ($response->ok()) {
-                    $images[] = $response['image'];
+                try {
+                    $response = Http::timeout(5)->get("https://fakestoreapi.com/products/{$i}");
+                    if ($response->ok()) {
+                        $images[] = $response['image'];
+                    }
+                } catch (RequestException $e) {
+                    $images[] = 'https://placehold.co/300x300?text=Fallback'; // fallback image
+                } catch (ConnectionException $e) {
+                    $images[] = 'https://placehold.co/300x300?text=Fallback'; // fallback image
                 }
             }
         }

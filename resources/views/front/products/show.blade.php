@@ -32,11 +32,11 @@
                                     <img src="{{ $product->image_url }}" id="current" alt="#">
                                 </div>
                                 <div class="images">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
+                                    <img src="https://placehold.co/1000x670" class="img" alt="#">
+                                    <img src="https://placehold.co/1000x670" class="img" alt="#">
+                                    <img src="https://placehold.co/1000x670" class="img" alt="#">
+                                    <img src="https://placehold.co/1000x670" class="img" alt="#">
+                                    <img src="https://placehold.co/1000x670" class="img" alt="#">
                                 </div>
                             </main>
                         </div>
@@ -226,7 +226,7 @@
                                 <h4 class="title">Latest Reviews</h4>
                                 <!-- Start Single Review -->
                                 <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
+                                    <img src="https://placehold.co/150x150" alt="#">
                                     <div class="review-info">
                                         <h4>Awesome quality for the price
                                             <span>Jacob Hammond
@@ -246,7 +246,7 @@
                                 <!-- End Single Review -->
                                 <!-- Start Single Review -->
                                 <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
+                                    <img src="https://placehold.co/150x150" alt="#">
                                     <div class="review-info">
                                         <h4>My husband love his new...
                                             <span>Alex Jaza
@@ -266,7 +266,7 @@
                                 <!-- End Single Review -->
                                 <!-- Start Single Review -->
                                 <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
+                                    <img src="https://placehold.co/150x150" alt="#">
                                     <div class="review-info">
                                         <h4>I love the built quality...
                                             <span>Jacob Hammond

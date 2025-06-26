@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use App\Rules\Filter;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        JsonResource::withoutWrapping();
         Validator::extend('filter', function ($attribute, $value, $parameters, $validator) {
             $forbiddenWords = $parameters;
             $rule = new Filter($forbiddenWords);

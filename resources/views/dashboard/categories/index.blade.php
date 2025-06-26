@@ -71,7 +71,7 @@
                             <tr>
                                 <td class="text-center">
                                     @if ($category->image)
-                                        <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image"
+                                        <img src="{{ asset($category->image) }}" alt="Category Image"
                                             width="50" height="50" class="rounded-circle object-fit-cover border">
                                     @else
                                         <div class="bg-light rounded-circle d-flex align-items-center justify-content-center"
