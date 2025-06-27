@@ -82,6 +82,8 @@ return [
     */
     'currency' => 'EUR',
 
+    'api_token' => env('API_TOKEN'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

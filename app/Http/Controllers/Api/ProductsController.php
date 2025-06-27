@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except('index', 'show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +43,15 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|gt:price',
         ]);
-        return Product::create($request->all());
+        $user = $request->user();
+        if (!$user->tokenCan('products.create')) {
+            return response()->json(['message' => 'You do not have permission to create a product.'], 403);
+        }
+        Product::create($request->all());
+
+        return response([
+            'message' => 'Product created successfully.',
+        ], 201);
     }
 
     /**
@@ -71,6 +83,11 @@ class ProductsController extends Controller
             'price' => 'sometimes|required|numeric|min:0',
             'compare_price' => 'nullable|numeric|gt:price',
         ]);
+        $user = $request->user();
+        if (!$user->tokenCan('products.update')) {
+            return response()->json(['message' => 'You do not have permission to update a product.'], 403);
+        }
+
         Product::findOrFail($id)->update($request->all());
         return response()->json(['message' => 'Product updated successfully.'], 200);
     }
@@ -81,8 +98,12 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        $user = $request->user();
+        if (!$user->tokenCan('products.delete')) {
+            return response()->json(['message' => 'You do not have permission to delete a product.'], 403);
+        }
         Product::destroy($id);
         return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
