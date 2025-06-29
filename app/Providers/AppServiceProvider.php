@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Rules\Filter;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
+use App\Services\CurrencyConverter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('currency.converter', function () {
+            new CurrencyConverter(config('services.currency_converter.api_key'));
+        });
     }
 
     /**

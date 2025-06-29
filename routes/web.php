@@ -5,6 +5,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\CurrencyConverterController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -22,5 +23,7 @@ Route::post('/checkout', [CheckoutController::class, 'store']);
 // 2FA
 Route::get('/auth/user/2fa', [TwoFactorAuthentication::class, 'index'])->name('front.2fa');
 
+// 
+Route::post('currency', [CurrencyConverterController::class, 'store'])->name('currency.store');
 require __DIR__ . '/dashboard.php';
 // require __DIR__ . '/auth.php';
