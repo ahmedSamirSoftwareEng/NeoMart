@@ -21,10 +21,21 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+    public function register()
+    {
+        parent::register();
+        $this->app->bind('abilities', function () {
+            return include base_path('data/abilities.php');
+        });
+    }
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        foreach ($this->app->make('abilities') as $code => $label) {
+            Gate::define($code, function ($user) use ($code) {
+                return $user->hasAbility($code);
+            });
+        }
     }
 }

@@ -9,11 +9,15 @@ use App\Models\Dashboard;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
+        if (Gate::denies('categories.view')) {
+            abort(403);
+        };
         $request = request();
         // $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
         //     ->select([
@@ -65,6 +69,7 @@ class CategoriesController extends Controller
     }
     public function update(CategoryRequest $request, $id)
     {
+        Gate::authorize('categories.update');
         $category = Category::findOrFail($id);
         $oldImage = $category->image;
         $data = $request->except('image');
@@ -84,6 +89,7 @@ class CategoriesController extends Controller
     }
     public function destroy($id)
     {
+        Gate::authorize('categories.delete');
         $category = Category::findOrFail($id);
         $oldImage = $category->image;
         $category->delete();

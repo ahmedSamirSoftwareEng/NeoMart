@@ -20,4 +20,6 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin/dashboard', 'as
     Route::resource('categories', CategoriesController::class)->names('categories');
     //products
     Route::resource('products', ProductsController::class)->names('products');
+    // roles
+    Route::resource('roles', \App\Http\Controllers\Dashboard\RolesController::class)->names('roles');
 });
