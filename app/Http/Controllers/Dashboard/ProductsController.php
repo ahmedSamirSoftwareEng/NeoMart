@@ -19,6 +19,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Product::class);
         $products = Product::with(['category', 'store'])->paginate(5);
         return view('dashboard.products.index', compact('products'));
     }
@@ -30,7 +31,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Product::class);
+        return view('dashboard.products.create');
     }
 
     /**
@@ -41,7 +43,9 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', Product::class);
+        Product::create($request->all());
+        return redirect()->route('dashboard.products.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -52,7 +56,9 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $this->authorize('view', $product);
+        return view('dashboard.products.show', compact('product'));
     }
 
     /**
@@ -64,6 +70,7 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorize('update', $product);
         $tags = $product->tags->pluck('name')->implode(',');
         return view('dashboard.products.edit', compact('product' , 'tags'));
     }
@@ -77,6 +84,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update', $product);
         $product->update($request->except('tags'));
         $tags= json_decode($request->tags??'[]');
         $tag_ids = [];
@@ -100,6 +108,9 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $this->authorize('delete', $product);
+        $product->delete();
+        return redirect()->route('dashboard.products.index')->with('success', 'Product deleted successfully.');
     }
 }

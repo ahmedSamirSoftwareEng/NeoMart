@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'dashboard.view' => 'view dashboard',
+
     'categories.view' =>__('view categories'),
     'categories.create' =>__('create categories'),
     'categories.update' => 'update categories',
@@ -25,5 +27,12 @@ return [
     'roles.create' => 'create roles',
     'roles.update' => 'update roles',
     'roles.delete' => 'delete roles',
+    'roles.restore' => 'restore roles',
+    'roles.force-delete' => 'forceDelete roles',
+
+    'admins.view' => 'view admins',
+    'admins.create' => 'create admins',
+    'admins.update' => 'update admins',
+    'admins.delete' => 'delete admins',
 
 ];
