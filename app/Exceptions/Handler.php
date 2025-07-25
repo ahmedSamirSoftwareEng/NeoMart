@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\QueryException;
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +38,18 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (QueryException $e, $request) {
+            if ($e->getCode() == 23000) {
+                $message = 'Integrity constraint violation';
+            } else {
+                $message = $e->getMessage();
+            }
+            if ($request->expectsJson()) {
+                return response()->json(['error' => $message], 400);
+            }
+            return redirect()->back()->withInput()->with('error', $message);
         });
     }
 }
