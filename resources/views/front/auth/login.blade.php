@@ -36,14 +36,8 @@
                             </div>
                             <div class="social-login">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn facebook-btn"
-                                            href="javascript:void(0)"><i class="lni lni-facebook-filled"></i> Facebook
-                                            login</a></div>
-                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn twitter-btn"
-                                            href="javascript:void(0)"><i class="lni lni-twitter-original"></i> Twitter
-                                            login</a></div>
-                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn google-btn"
-                                            href="javascript:void(0)"><i class="lni lni-google"></i> Google login</a>
+                                    <div class="col-lg-12 col-md-12 col-12"><a class="btn google-btn"
+                                            href="{{route('auth.socialite.redirect' , 'google')}}"><i class="lni lni-google"></i> Login with Google</a>
                                     </div>
                                 </div>
                             </div>
@@ -51,9 +45,9 @@
                                 <span>Or</span>
                             </div>
                             @if ($errors->has(config('fortify.username')))
-                                <div class="alert alert-danger">
-                                    {{ $errors->first(config('fortify.username')) }}
-                                </div>
+                            <div class="alert alert-danger">
+                                {{ $errors->first(config('fortify.username')) }}
+                            </div>
                             @endif
                             <div class="form-group input-group">
                                 <label for="reg-fn">Email</label>
@@ -71,7 +65,7 @@
                                     <label class="form-check-label">Remember me</label>
                                 </div>
                                 @if (Route::has('password.request'))
-                                    <a class="lost-pass" href="{{ route('password.request') }}">Forgot password?</a>
+                                <a class="lost-pass" href="{{ route('password.request') }}">Forgot password?</a>
                                 @endif
                             </div>
                             <div class="button">

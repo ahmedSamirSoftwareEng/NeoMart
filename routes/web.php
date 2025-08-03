@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Front\Auth\TwoFactorAuthentication;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CurrencyConverterController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -30,5 +32,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     // language
     Route::post('language', [HomeController::class, 'language'])->name('language.store');
 });
+
+// socialite
+Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('auth.socialite.redirect');
+Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('auth.socialite.callback');
+Route::get('auth/{provider}/user', [SocialController::class, 'index'])->name('auth.socialite.user');
 require __DIR__ . '/dashboard.php';
 // require __DIR__ . '/auth.php';

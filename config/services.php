@@ -33,4 +33,11 @@ return [
         'api_key' => env('Currency_Convert_API_Key'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'https://fwd.host/' . env('APP_URL') . '/auth/google/callback',
+
+    ],
+
 ];
