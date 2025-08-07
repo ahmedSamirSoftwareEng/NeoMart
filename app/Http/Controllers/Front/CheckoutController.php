@@ -64,6 +64,6 @@ class CheckoutController extends Controller
             DB::rollBack();
             throw $e;
         }
-        return redirect()->route('home')->with('success', 'Order created successfully.');
+        return redirect()->route('orders.payments.create', $order->id)->with('success', 'Order created successfully.');
     }
 }

@@ -70,4 +70,9 @@ class Order extends Model
                 'options'
             ]);
     }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

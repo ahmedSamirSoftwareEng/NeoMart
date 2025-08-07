@@ -7,6 +7,7 @@ use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CurrencyConverterController;
+use App\Http\Controllers\Front\PaymentController;
 use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -33,6 +34,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::post('language', [HomeController::class, 'language'])->name('language.store');
 });
 
+// stripe payment
+Route::get('orders/{order}/pay', [PaymentController::class, 'create'])->name('orders.payments.create');
+Route::post('orders/{order}/stripe/payment-intent/create', [PaymentController::class, 'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
+Route::get('orders/{order}/order/pay/stripe/callback', [PaymentController::class, 'confirm'])->name('stripe.return');
 // socialite
 Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('auth.socialite.redirect');
 Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('auth.socialite.callback');

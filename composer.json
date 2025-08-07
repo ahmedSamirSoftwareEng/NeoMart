@@ -16,6 +16,7 @@
         "mbezhanov/laravel-faker-provider-collection": "*",
         "mcamara/laravel-localization": "^2.0",
         "pusher/pusher-php-server": "^7.2",
+        "stripe/stripe-php": "^17.5",
         "symfony/intl": "^7.2"
     },
     "require-dev": {
