@@ -10,6 +10,7 @@ use App\Http\Controllers\Front\CurrencyConverterController;
 use App\Http\Controllers\Front\PaymentController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\Front\OrdersController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -44,5 +45,9 @@ Route::any('stripe/webhook', [StripeWebhookController::class, 'handleStripeWebho
 Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('auth.socialite.redirect');
 Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('auth.socialite.callback');
 Route::get('auth/{provider}/user', [SocialController::class, 'index'])->name('auth.socialite.user');
+
+
+// delivery
+Route::get('orders/{order}', [OrdersController::class, 'show'])->name('orders.show');
 require __DIR__ . '/dashboard.php';
 // require __DIR__ . '/auth.php';
